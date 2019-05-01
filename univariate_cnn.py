@@ -85,8 +85,13 @@ test_input = torch.tensor(x_input)
 test_input = test_input.type(torch.FloatTensor)
 print (net(test_input))
 
-
 x_input = np.array([10, 20, 30])
+x_input = x_input.reshape((1, 3, 1))
+test_input = torch.tensor(x_input)
+test_input = test_input.type(torch.FloatTensor)
+print (net(test_input))
+
+x_input = np.array([10, 40, 60])
 x_input = x_input.reshape((1, 3, 1))
 test_input = torch.tensor(x_input)
 test_input = test_input.type(torch.FloatTensor)
