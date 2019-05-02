@@ -20,6 +20,7 @@ class Network (nn.Module):
         # TODO: Tune and find the best model
         self.conv = nn.Conv1d(in_channels=3, out_channels=10, kernel_size=2,padding=(2 // 2))
         self.conv2 = nn.Conv1d(in_channels=10, out_channels=10, kernel_size=2,padding=(2 // 2))
+        self.dropout = nn.Dropout(p=0.5)
         self.pool = nn.MaxPool1d(2)
         self.flatten = Flatten()
         self.linear1 = nn.Linear(10, 50)
@@ -30,7 +31,8 @@ class Network (nn.Module):
         x = F.relu(x)
         x = self.conv2(x)
         x = F.relu(x)
-        # TODO: Consider adding a dropout layer here
+        # TODO: Test out the dropout layer, see if its preferred to prevent overfitting
+        x = self.dropout(x)
         x = self.pool(x)
         x = self.flatten(x)
         x = F.relu(self.linear1(x))
