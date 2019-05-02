@@ -19,7 +19,7 @@ class Network (nn.Module):
         # in_channels determine the number of data points per sequence
         # TODO: Tune and find the best model
         self.conv = nn.Conv1d(in_channels=3, out_channels=10, kernel_size=2,padding=(2 // 2))
-        self.conv2 = nn.Conv1d(in_channels=10, out_channels=10, kernel_size=3,padding=(3 // 2))
+        self.conv2 = nn.Conv1d(in_channels=10, out_channels=10, kernel_size=2,padding=(2 // 2))
         self.pool = nn.MaxPool1d(2)
         self.flatten = Flatten()
         self.linear1 = nn.Linear(10, 50)
@@ -30,6 +30,7 @@ class Network (nn.Module):
         x = F.relu(x)
         x = self.conv2(x)
         x = F.relu(x)
+        # TODO: Consider adding a dropout layer here
         x = self.pool(x)
         x = self.flatten(x)
         x = F.relu(self.linear1(x))
@@ -62,7 +63,7 @@ for epoch in range(1000):  # loop over the dataset multiple times
 print ("Finished training")
 
 
-x_input = np.array([10, 20, 30])
+x_input = np.array([15, 25, 35])
 x_input = x_input.reshape((1, 3, 1))
 test_input = torch.tensor(x_input)
 test_input = test_input.type(torch.FloatTensor)
