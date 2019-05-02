@@ -18,11 +18,11 @@ class Network (nn.Module):
         # Observations: Increasing the number of hidden layers post-conv increases the accuracy in prediction
         # in_channels determine the number of data points per sequence
         # TODO: Tune and find the best model
-        self.conv = nn.Conv1d(in_channels=3, out_channels=150, kernel_size=2,padding=(2 // 2))
-        self.conv2 = nn.Conv1d(in_channels=150, out_channels=150, kernel_size=3,padding=(3 // 2))
+        self.conv = nn.Conv1d(in_channels=3, out_channels=10, kernel_size=2,padding=(2 // 2))
+        self.conv2 = nn.Conv1d(in_channels=10, out_channels=10, kernel_size=3,padding=(3 // 2))
         self.pool = nn.MaxPool1d(2)
         self.flatten = Flatten()
-        self.linear1 = nn.Linear(150, 50)
+        self.linear1 = nn.Linear(10, 50)
         self.output = nn.Linear(50, 3)
 
     def forward (self, x):
@@ -45,7 +45,7 @@ inputs = torch.tensor(X)
 labels = torch.tensor(y)
 inputs = inputs.type(torch.FloatTensor)
 
-for epoch in range(100):  # loop over the dataset multiple times
+for epoch in range(1000):  # loop over the dataset multiple times
     running_loss = 0.0
 
     optimizer.zero_grad()
