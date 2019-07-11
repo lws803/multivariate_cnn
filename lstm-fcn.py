@@ -168,10 +168,10 @@ class SimpleLearner():
             misses = 0
             y_hat = self.model(x)
             conf, predicted = torch.max(y_hat.data, 1)
-            y_hat = list(y_hat)
+            predicted = list(predicted)
             correct_y = list(y)
-            for i in range(0, len(y_hat)):
-                if y_hat[i] == correct_y[i]:
+            for i in range(0, len(predicted)):
+                if predicted[i] == correct_y[i]:
                     hits += 1
                 else:
                     misses += 1
