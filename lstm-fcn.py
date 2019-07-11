@@ -157,7 +157,7 @@ class SimpleLearner():
         for x, y in X:
             y_hat = self.model(x)
             conf, predicted = torch.max(y_hat.data, 1)
-            print(predicted, conf)
+            print(predicted)
 
 
 
