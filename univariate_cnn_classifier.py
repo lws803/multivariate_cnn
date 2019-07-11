@@ -3,6 +3,7 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from tqdm import tqdm
 
 NUM_CLASSES = 4
 WINDOW_SIZE = 3
@@ -14,6 +15,8 @@ y = np.array([0, 1, 2, 3, 2])  # Classifications
 
 # TODO: Consider using padding instead. Always set WINDOW_SIZE to the largest window
 # Smaller dataset will be padded instead
+
+# TODO: Test it on the earthquake dataset and see if we can yield better results
 
 class Flatten(nn.Module):
     def forward(self, input):
@@ -60,7 +63,7 @@ inputs = torch.tensor(X)
 labels = torch.tensor(y)
 inputs = inputs.type(torch.FloatTensor)
 
-for epoch in range(1000):  # loop over the dataset multiple times
+for epoch in tqdm(range(1000)):  # loop over the dataset multiple times
     running_loss = 0.0
 
     optimizer.zero_grad()
@@ -71,8 +74,8 @@ for epoch in range(1000):  # loop over the dataset multiple times
     optimizer.step()
 
     running_loss += loss.item()
-    print('[%d] loss: %.3f' %
-        (epoch + 1, running_loss / (epoch + 1)))
+    # print('[%d] loss: %.3f' %
+    #     (epoch + 1, running_loss / (epoch + 1)))
 
 print("====================Finished training=================")
 
