@@ -164,10 +164,17 @@ class SimpleLearner():
     def evaluate(self, X):
         """Evaluate the given data loader on the model and return predictions"""
         for x, y in X:
+            hits = 0
+            misses = 0
             y_hat = self.model(x)
             conf, predicted = torch.max(y_hat.data, 1)
-            print(predicted)
-            print(y)
+            y_hat = list(y_hat)
+            correct_y = list(y)
+            for i in range(0, len(y_hat)):
+                if y_hat[i] == correct_y[i]:
+                    hits += 1
+                else:
+                    misses += 1
 
 
 
