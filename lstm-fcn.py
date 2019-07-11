@@ -7,7 +7,7 @@ from utils import load_data, create_dataset
 from torch.utils.data import DataLoader
 
 batch_size = 64
-classes = 4
+classes = 2
 epochs = 10
 kernel_size = 8
 
@@ -104,15 +104,24 @@ X_test, y_test = load_data('data/Earthquakes_TEST.txt', classes)
 print(y_test)
 print('X_train %s   y_train %s' % (X_train.shape, y_train.shape))
 
-device = torch.device('cpu')
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 train_ds = create_dataset(X_train, y_train, device)
 test_ds = create_dataset(X_test, y_test, device)
 train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=False)
 test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
 
-loss_func = nn.NLLLoss().cpu()
+if torch.cuda.is_available():
+    loss_func = nn.NLLLoss().cuda()
+else:
+    loss_func = nn.NLLLoss().cpu()
+
 time_steps = X_train.shape[1]
-model = LSTMFCN(time_steps, classes).cpu()
+
+if torch.cuda.is_available():
+    model = LSTMFCN(time_steps, classes).cuda()
+else:
+    model = LSTMFCN(time_steps, classes).cpu()
+
 
 class SimpleLearner():
     def __init__(self, data, model, loss_func, wd=1e-5):
