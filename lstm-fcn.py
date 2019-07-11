@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 
 batch_size = 64
 classes = 2
-epochs = 10
+epochs = 100
 kernel_size = 8
 
 class BlockLSTM(nn.Module):
@@ -167,6 +167,7 @@ class SimpleLearner():
             y_hat = self.model(x)
             conf, predicted = torch.max(y_hat.data, 1)
             print(predicted)
+            print(y)
 
 
 
