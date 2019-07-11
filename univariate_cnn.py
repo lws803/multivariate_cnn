@@ -76,7 +76,7 @@ for epoch in range(100):  # loop over the dataset multiple times
     print('[%d] loss: %.3f' %
         (epoch + 1, running_loss / (epoch+1)))
 
-print ("Finished training")
+print ("====================Finished training=================")
 
 
 x_input = np.array([20, 30, 40])

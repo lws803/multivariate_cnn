@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
-X = np.array([[10,20,30], [50,60,70], [70, 60, 50]])
+X = np.array([[10,20,30], [70,60,50], [70, 70, 70]])
 y = np.array([0,1,2])
 
 
@@ -35,6 +35,8 @@ class Network (nn.Module):
         x = self.dropout(x)
         x = self.pool(x)
         x = self.flatten(x)
+        # TODO: Add more convolutional layers here and flatten them as well then concatenate into a giant network
+        # So we get a larger FC here
         x = F.relu(self.linear1(x))
         x = F.softmax(self.output(x))
         return x
@@ -62,7 +64,7 @@ for epoch in range(1000):  # loop over the dataset multiple times
     print('[%d] loss: %.3f' %
         (epoch + 1, running_loss / (epoch+1)))
 
-print ("Finished training")
+print ("====================Finished training=================")
 
 
 x_input = np.array([15, 25, 35])
@@ -73,7 +75,7 @@ outputs = net(test_input)
 conf, predicted = torch.max(outputs.data, 1)
 print (predicted[0], conf)
 
-x_input = np.array([50, 60, 70])
+x_input = np.array([45, 70, 80])
 x_input = x_input.reshape((1, 3, 1))
 test_input = torch.tensor(x_input)
 test_input = test_input.type(torch.FloatTensor)
@@ -81,7 +83,7 @@ outputs = net(test_input)
 conf, predicted = torch.max(outputs.data, 1)
 print (predicted[0], conf)
 
-x_input = np.array([75, 60, 50])
+x_input = np.array([60, 60, 60])
 x_input = x_input.reshape((1, 3, 1))
 test_input = torch.tensor(x_input)
 test_input = test_input.type(torch.FloatTensor)
