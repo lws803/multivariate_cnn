@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 batch_size = 64
 classes = 4
 epochs = 10
-kernel_size = 3
+kernel_size = 8
 
 class BlockLSTM(nn.Module):
     def __init__(self, time_steps, num_layers, lstm_hs, dropout=0.8, attention=False):
@@ -45,7 +45,7 @@ class BlockFCNConv(nn.Module):
         return y
 
 class BlockFCN(nn.Module):
-    def __init__(self, time_steps, channels=[1, 128, 256, 128], kernels=[kernel_size, 1, 1], mom=0.99, eps=0.001):
+    def __init__(self, time_steps, channels=[1, 128, 256, 128], kernels=[kernel_size, 5, 3], mom=0.99, eps=0.001):
         super().__init__()
         self.conv1 = BlockFCNConv(channels[0], channels[1], kernels[0], momentum=mom, epsilon=eps, squeeze=True)
         self.conv2 = BlockFCNConv(channels[1], channels[2], kernels[1], momentum=mom, epsilon=eps, squeeze=True)
