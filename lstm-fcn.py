@@ -176,6 +176,8 @@ class SimpleLearner():
                 else:
                     misses += 1
 
+            print(hits, misses)
+
 
 
 learner = SimpleLearner([train_dl, test_dl], model, loss_func)
