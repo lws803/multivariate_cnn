@@ -163,6 +163,9 @@ class SimpleLearner():
 
     def evaluate(self, X):
         """Evaluate the given data loader on the model and return predictions"""
+        combined_array = np.array([], dtype=int)
+        result = None
+
         for x, y in X:
             hits = 0
             misses = 0
@@ -170,16 +173,23 @@ class SimpleLearner():
             conf, predicted = torch.max(y_hat.data, 1)
             predicted = list(predicted)
             correct_y = list(y)
+            result = y_hat.cpu().detach().numpy() \
+                if result is None else np.concatenate((result, y_hat.cpu().detach().numpy()), axis=0)
+
             for i in range(0, len(predicted)):
+                combined_array = np.append(combined_array, int(predicted[i]))
+
                 if predicted[i] == correct_y[i]:
                     hits += 1
                 else:
                     misses += 1
 
             print(hits, misses)
-
+        print(combined_array)
+        return result
 
 
 learner = SimpleLearner([train_dl, test_dl], model, loss_func)
 losses = learner.fit(epochs)
-learner.evaluate(test_dl)
+result = learner.evaluate(test_dl)
+print(((y_test - result.argmax(axis=1))**2).mean())
