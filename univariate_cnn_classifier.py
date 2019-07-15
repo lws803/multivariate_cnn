@@ -10,8 +10,13 @@ WINDOW_SIZE = 3
 GENERALISE = True
 NUM_CONV_LAYERS = 2
 
-X = np.array([[10, 20, 30], [70, 60, 50], [70, 70, 70], [10, 30, 10], [20, 20, 20]])  # Time series
-y = np.array([0, 1, 2, 3, 2])  # Classifications
+X = np.array([[10, 20, 30],
+            [70, 60, 50],
+            [70, 70, 70],
+            [10, 30, 10],
+            [20, 20, 20],
+            [20, 40, 20]])  # Time series
+y = np.array([0, 1, 2, 3, 2, 3])  # Classifications
 
 # TODO: Consider using padding instead. Always set WINDOW_SIZE to the largest window
 # Smaller dataset will be padded instead
