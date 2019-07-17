@@ -91,8 +91,8 @@ class LSTMFCN(nn.Module):
 
 # TODO: Try to understand the data type in this dataset
 
-X_train, y_train = load_data('data/Earthquakes_TRAIN.txt', classes)
-X_test, y_test = load_data('data/Earthquakes_TEST.txt', classes)
+X_train, y_train = load_data('/Users/wilson/Desktop/NewTSCProblems/Car/Car_TRAIN.txt', classes)
+X_test, y_test = load_data('/Users/wilson/Desktop/NewTSCProblems/Car/Car_TEST.txt', classes)
 # X_train = np.array([[10, 20, 30], [70, 60, 50], [70, 70, 70], [10, 30, 10], [20, 20, 20]])  # Time series
 # y_train = np.array([0, 1, 2, 3, 2])  # Classifications
 # X_test = np.array([
@@ -127,21 +127,6 @@ class SimpleLearner():
     def __init__(self, data, model, loss_func, wd=1e-5):
         self.data, self.model, self.loss_func = data, model, loss_func
         self.wd = wd
-
-    def update_manualgrad(self, x, y, lr):
-        y_hat = self.model(x)
-        # weight decay
-        w2 = 0.
-        for p in model.parameters():
-            w2 += (p**2).sum()
-        # add to regular loss
-        loss = self.loss_func(y_hat, y) + w2 * self.wd
-        loss.backward()
-        with torch.no_grad():
-            for p in model.parameters():
-                p.sub_(lr * p.grad)
-                p.grad.zero_()
-        return loss.item()
 
     def update(self, x, y, lr):
         opt = optim.Adam(self.model.parameters(), lr)
@@ -192,4 +177,4 @@ class SimpleLearner():
 learner = SimpleLearner([train_dl, test_dl], model, loss_func)
 losses = learner.fit(epochs)
 result = learner.evaluate(test_dl)
-print(((y_test - result.argmax(axis=1))**2).mean())
+print("loss:", ((y_test - result.argmax(axis=1))**2).mean())
