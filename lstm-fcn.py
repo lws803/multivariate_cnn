@@ -48,24 +48,14 @@ class Learner():
         result = None
 
         for x, y in X:
-            hits = 0
-            misses = 0
             y_hat = self.model(x)
             conf, predicted = torch.max(y_hat.data, 1)
             predicted = list(predicted)
-            correct_y = list(y)
             result = y_hat.cpu().detach().numpy() \
                 if result is None else np.concatenate((result, y_hat.cpu().detach().numpy()), axis=0)
 
             for i in range(0, len(predicted)):
                 combined_array = np.append(combined_array, int(predicted[i]))
-
-                if predicted[i] == correct_y[i]:
-                    hits += 1
-                else:
-                    misses += 1
-
-            print(hits, misses)
         print(combined_array)
         return result
 
