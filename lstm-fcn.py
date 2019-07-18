@@ -39,7 +39,7 @@ class Learner():
             for x, y in self.data[0]:
                 current_loss = self.update(x, y, lr)
                 losses.append(current_loss)
-        torch.save(args.save_path + "model.pth")
+        torch.save(self.model.state_dict(), args.save_path + "model.pth")
         return losses
 
     def evaluate(self, X):
