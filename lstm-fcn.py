@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
     learner = Learner([train_dl, test_dl], model, loss_func)
     if not args.train:
-        model.load_state_dict(args.save_path + "model.pth")
+        model.load_state_dict(torch.load(args.save_path + "model.pth"))
 
     if args.train:
         losses = learner.fit(args.epochs)
