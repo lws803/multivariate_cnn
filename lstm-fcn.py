@@ -7,11 +7,14 @@ from utils import load_data, create_dataset
 from torch.utils.data import DataLoader
 from model import LstmFCN
 import argparse
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch_size', default=64, type=int, help='batch size')
 parser.add_argument('--classes', default=2, type=int, help='number of classifications')
 parser.add_argument('--epochs', default=2000, type=int, help='number of epochs to run training')
+parser.add_argument('--train', action='store_true', help='training mode')
+parser.add_argument('--save_path', default="data/models/", type=str, help='model storage path')
 
 args = parser.parse_args()
 
@@ -36,6 +39,7 @@ class Learner():
             for x, y in self.data[0]:
                 current_loss = self.update(x, y, lr)
                 losses.append(current_loss)
+        torch.save(args.save_path + "model.pth")
         return losses
 
     def evaluate(self, X):
@@ -65,11 +69,16 @@ class Learner():
         print(combined_array)
         return result
 
+def make_directories():
+    if not os.path.exists("data/models"):
+        os.makedirs("data/models")
+
 
 if __name__ == "__main__":
+    make_directories()
+
     X_train, y_train = load_data('data/Earthquakes_TRAIN.txt', args.classes)
     X_test, y_test = load_data('data/Earthquakes_TEST.txt', args.classes)
-
     print(y_test)
     print('X_train %s   y_train %s' % (X_train.shape, y_train.shape))
 
@@ -91,8 +100,13 @@ if __name__ == "__main__":
     else:
         model = LstmFCN(time_steps, args.classes).cpu()
 
+    if not args.train:
+        model = torch.load(args.save_path + "model.pth")
 
     learner = Learner([train_dl, test_dl], model, loss_func)
-    losses = learner.fit(args.epochs)
+    if args.train:
+        losses = learner.fit(args.epochs)
+        # TODO: Plot the losses
+
     result = learner.evaluate(test_dl)
     print("loss:", ((y_test - result.argmax(axis=1))**2).mean())
