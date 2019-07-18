@@ -90,10 +90,10 @@ if __name__ == "__main__":
     else:
         model = LstmFCN(time_steps, args.classes).cpu()
 
-    if not args.train:
-        model = torch.load(args.save_path + "model.pth")
-
     learner = Learner([train_dl, test_dl], model, loss_func)
+    if not args.train:
+        model.load_state_dict(args.save_path + "model.pth")
+
     if args.train:
         losses = learner.fit(args.epochs)
         # TODO: Plot the losses
