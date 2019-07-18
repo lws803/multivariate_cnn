@@ -15,6 +15,8 @@ parser.add_argument('--classes', default=2, type=int, help='number of classifica
 parser.add_argument('--epochs', default=2000, type=int, help='number of epochs to run training')
 parser.add_argument('--train', action='store_true', help='training mode')
 parser.add_argument('--save_path', default="data/models/", type=str, help='model storage path')
+parser.add_argument('--test_set', default="data/Earthquakes_TEST.txt", type=str, help='test data path')
+parser.add_argument('--train_set', default="data/Earthquakes_TRAIN.txt", type=str, help='train data path')
 
 args = parser.parse_args()
 
@@ -67,8 +69,8 @@ def make_directories():
 if __name__ == "__main__":
     make_directories()
 
-    X_train, y_train = load_data('data/Earthquakes_TRAIN.txt', args.classes)
-    X_test, y_test = load_data('data/Earthquakes_TEST.txt', args.classes)
+    X_train, y_train = load_data(args.train_set, args.classes)
+    X_test, y_test = load_data(args.test_set, args.classes)
     print(y_test)
     print('X_train %s   y_train %s' % (X_train.shape, y_train.shape))
 
