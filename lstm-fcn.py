@@ -46,6 +46,7 @@ class Learner():
                 current_loss = self.update(x, y, lr)
                 losses.append(current_loss)
         torch.save(self.model.state_dict(), args.save_path + "model.pth")  # TODO: Find out the bug here
+        # Wrong size saved instead
         return losses
 
     def evaluate(self, X):
@@ -142,7 +143,7 @@ if __name__ == "__main__":
     if args.train:
         losses = learner.fit(args.epochs)
 
-    if args.detect != "":
+    if args.detect is not None:
         f = open(args.detect)
         line = f.readline()
         data_set = line.split()
